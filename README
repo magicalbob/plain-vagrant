@@ -3,6 +3,8 @@ Plain Vagrant
 
 A script that uses vagrant to configure a set of VMs in Virtual Box, based on a machine list in a salt-pillar / config.xml file, then builds the machines using salt.
 
+Should run anywhere that you can run vagrant and virtual box. Tested hosted on Centos 7, Windows 8 and Mac OSX (Yosemite & Sierra).
+
 Requisites
 ==========
 
