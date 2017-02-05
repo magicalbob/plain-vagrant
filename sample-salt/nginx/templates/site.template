@@ -1,0 +1,12 @@
+upstream hello {
+{% for server in pillar['host_machines'] %}{% if server.split('-')[1]=='lab' %}  server {{ server }}:8080;{% endif %}
+{% endfor %}
+}
+
+server {
+  listen 80;
+
+  location / {
+    proxy_pass http://hello;
+  } 
+}

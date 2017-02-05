@@ -1,0 +1,5 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{% for machine, args in pillar['host_machines'].iteritems() %}{{ args['ip_addr'] }}	{{ args['host_name'] }} {{ args['other_names'] }}
+{% endfor %}

@@ -1,0 +1,8 @@
+[Unit]
+Description=Sample Hello World app
+After=network.target
+
+[Service]
+ExecStart=/bin/python /opt/hello/hello.py
+Restart=always
+

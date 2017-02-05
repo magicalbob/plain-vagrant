@@ -1,0 +1,44 @@
+Plain Vagrant
+==============
+
+A script that uses vagrant to configure a set of VMs in Virtual Box, based on a machine list in a salt-pillar / config.xml file, then builds the machines using salt.
+
+Requisites
+==========
+
+ - Vagrant     (https://www.vagrantup.com/downloads.html)
+ - Virtual Box (https://www.virtualbox.org/wiki/Downloads)
+ - a salt stack containing pillar list of hosts
+ - vagrant plugin install vagrant-vbguest
+
+Vagrant box images need to include:
+
+ - salt-minion
+ - salt-master (for carers6master or carers7master)
+ - for Centos 6 & 7: gcc kernel-devel cpp glibc-devel glibc-headers kernel-headers libgomp mpfr
+ - for Centos 6: ppl cloog-ppl
+
+Salt should be installed from the main salt repo, not the epel (which is ancient): see https://repo.saltstack.com/#rhel
+
+They are pre-built as madeinpreston/carers6, madeinpreston/carer7, madeinpreston/carers6master and madeinpreston/carers7master on Hashi Corps repo.
+
+Config
+======
+
+The file config.yaml defines things like where the salt pillar is, what the default box set up is (image, memory etc), details of 'special' box config, boxes to exclude from standing up etc.
+
+The exclude list in config.yaml allows you to specify boxes that you're not interested in standing up. If you run the install.rb script with too big a stack of boxes it will force you to switch off your computer in a nasty fashion ......
+
+Use
+===
+
+Run:
+
+  ./plain-vagrant.sh
+
+That's it! Wait about a while & the environment should be up and fully built (as per salt config).
+
+Do a tail -f logs/*log to see how the build is going.
+
+Note that you'll see a number of "tcsetattr: Input/output error" messages. Don't worry about them.
+

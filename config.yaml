@@ -1,0 +1,17 @@
+salt_states: ./sample-salt
+salt_pillar: ./sample-pillar
+salt_master: test-admin-01
+environment: lab
+default_box: madeinpreston/carer7
+default_memory: 2048
+special_box:
+ - host: test-admin-01
+   box:  madeinpreston/carers7master
+   memory: 1024
+ - host: test-web-01
+   box:  madeinpreston/carer7
+   memory: 512
+ - host: test-web-02
+   box:  madeinpreston/carer7
+   memory: 512
+exclude:
