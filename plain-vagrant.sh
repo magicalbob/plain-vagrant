@@ -14,7 +14,8 @@ vagrant up
 # make sure all the machines are configured (as salt minions, with right hostname etc)
 ruby prepare.rb
 
-# should set up salt-master first (should .... but haven't yet)
+# run state.highstate for salt-master first 
+ruby salt-master.rb
 
 # now run the salt roles on each of the machines
 ruby install.rb
