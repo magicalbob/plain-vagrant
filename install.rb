@@ -26,3 +26,13 @@ servers.each do |server|
     print master_res
   end
 end
+
+# Wait for all spawned salt-calls to finish before exiting
+all_done=false
+while all_done == false
+  begin
+    Process.wait2()
+  rescue
+    all_done=true
+  end
+end
