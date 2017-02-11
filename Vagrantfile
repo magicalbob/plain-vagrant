@@ -5,34 +5,8 @@
 Vagrant.require_version ">= 1.6.0"
 VAGRANTFILE_API_VERSION = "2"
  
-# Require YAML module
-require 'yaml'
-
-# Read YAML config.yaml file
-begin
-  config = YAML.load_file('config.yaml')
-rescue
-  print "Cannot open config.yaml\n"
-  exit 2
-end
-
-begin
-  salt_pillar=config['salt_pillar']
-  salt_env=config['environment']
-  if salt_pillar[-1] != "/"
-    salt_pillar=salt_pillar+"/"
-  end
-  salt_pillar=salt_pillar+salt_env+"_hosts.sls"
-rescue
-  print "Couldn't get the salt pillar file #{salt_env}_hosts.sls\n"
-  exit 3
-end
-
-if not FileTest.exist?salt_pillar
-  print "Couldn't find the salt pillar file #{salt_env}_hosts.sls\n"
-  exit 4
-end
-
+require './config-check.rb'
+ 
 # Work out logs directory
 salt_log=Dir.pwd + "/logs"
 
@@ -46,9 +20,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant_config|
     begin
       vagrant_config.vm.define server do |srv|
         # If the server is the salt master mount the saltstack
-        if config['salt_master'] == server
-          srv.vm.synced_folder config['salt_states'], "/srv/salt"
-          srv.vm.synced_folder config['salt_pillar'], "/srv/pillar"
+        if $config['salt_master'] == server
+          srv.vm.synced_folder $config['salt_states'], "/srv/salt"
+          srv.vm.synced_folder $config['salt_pillar'], "/srv/pillar"
         end
         
         # create shared folder for install.rb to put logs in to
@@ -59,9 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant_config|
 
         # If special settings are set in the config for this machine set them up
         special_box=""
-        special_memory=config['default_memory']
+        special_memory=$config['default_memory']
         special_disks=""
-        config['special_box'].each do |special|
+        $config['special_box'].each do |special|
           if special['host'] == server
             special_box=special['box']
             special_memory=special['memory']
@@ -80,7 +54,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant_config|
         end
         # set the vagrant box. Use default if a specific box has not been specified.
         if special_box == ""
-          srv.vm.box=config['default_box']
+          srv.vm.box=$config['default_box']
         else
           srv.vm.box=special_box
         end 
