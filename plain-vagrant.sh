@@ -20,3 +20,5 @@ ruby salt-master.rb
 # now run the salt roles on each of the machines
 ruby install.rb
 
+# make sure terminal is sane
+stty sane
