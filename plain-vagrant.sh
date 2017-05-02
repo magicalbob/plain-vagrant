@@ -5,6 +5,16 @@ set -e
 # cd into the vagrant directory (this is for automated start)
 cd $(dirname $0)
 
+# get salt git
+if [ ! -d salt ]
+then
+  git clone https://github.com/saltstack/salt.git
+fi
+
+pushd salt
+git checkout develop
+popd
+
 # force destruction of the vagrant, in case it is already set up
 vagrant destroy -f
 

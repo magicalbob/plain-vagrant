@@ -8,6 +8,7 @@ special_box:
  - host: test-admin-01
    box:  madeinpreston/carers7master
    memory: 1024
+   mounts: [['./salt/salt/renderers','/renderers'],['./pass_data/gnupg','/root/.gnupg'],['./pass_data/password-store','/root/.password-store']]
  - host: test-web-01
    box:  madeinpreston/carer7
    memory: 512
@@ -15,3 +16,6 @@ special_box:
    box:  madeinpreston/carer7
    memory: 512
 exclude:
+ - test-web-01
+ - test-web-02
+ - test-lab-01
